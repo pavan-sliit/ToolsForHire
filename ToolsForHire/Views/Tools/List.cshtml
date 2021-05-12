@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ToolsForHire.Models.Tool>
+@{
+    ViewBag.Title = "Tools";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Tools</h2>
+
+<p>
+    @Html.ActionLink("New Tool", "NewTool", "Tools", null, new { @class = "btn btn-primary" })
+</p>
+
+<table id="tools" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Tool</th>
+            <th>Category</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            var table = $("#tools").DataTable({
+                ajax: {
+                    url: "/api/tools",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function(data, type, tool) {
+                            return "<a href='/tools/edit/" + tool.id + "'>" + tool.name + "</a>";
+                        }
+                    },
+                    {
+                        data: "categoryType.name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data, type, tool) {
+                            return "<button class='btn-link js-delete' data-tool-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+
+            });
+
+            $("#tools").on("click", ".js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Do you want to delete this tool?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/tools/" + button.attr("data-tool-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr"))
+                                .remove().draw();
+                            }
+                        });
+                    }
+                });
+
+            });
+        });
+    </script>
+}
+
+
