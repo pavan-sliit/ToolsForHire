@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using ToolsForHire.Models;
+using System.Configuration;
 
 namespace ToolsForHire
 {
@@ -55,8 +56,8 @@ namespace ToolsForHire
             //   consumerSecret: "");
 
             app.UseFacebookAuthentication(
-               appId: "1441912072827577",
-               appSecret: "be20224ac19528fa031b9405f31acc2b");
+               appId: ConfigurationManager.AppSettings["FacebookAppId"],
+               appSecret: ConfigurationManager.AppSettings["FacebookAppSecret"]);
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
