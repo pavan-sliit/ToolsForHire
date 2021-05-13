@@ -19,6 +19,8 @@ namespace ToolsForHire.Models
         [Range(1, 20)]
         public int NoInStock { get; set; }
 
+        public byte NumberAvailable { get; set; }
+
         public CategoryType CategoryType { get; set; }
 
         [Display(Name="Category")]

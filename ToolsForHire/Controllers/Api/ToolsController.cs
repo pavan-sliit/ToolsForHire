@@ -21,12 +21,19 @@ namespace ToolsForHire.Controllers.Api
         }
 
         //GET /api/tools
-        public IHttpActionResult GetTools()
+        public IHttpActionResult GetTools(string query = null)
         {
-            var toolDtos = _context.Tools
+            var toolsQuery = _context.Tools
                 .Include(t => t.CategoryType)
+                .Where(t => t.NumberAvailable > 0);
+
+            if (!String.IsNullOrWhiteSpace(query))
+                toolsQuery = toolsQuery.Where(t => t.Name.Contains(query));
+
+            var toolDtos = toolsQuery
                 .ToList()
                 .Select(Mapper.Map<Tool, ToolDto>);
+
             return Ok(toolDtos);
         }
 

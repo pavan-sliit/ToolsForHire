@@ -28,6 +28,7 @@ namespace ToolsForHire.Models
         public DbSet<Tool> Tools { get; set; }
         public DbSet<MembershipType> MembershipTypes { get; set; }
         public DbSet<CategoryType> CategoryTypes { get; set; }
+        public DbSet<Rental> Rentals { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
